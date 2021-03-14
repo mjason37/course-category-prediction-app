@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 from rapidfuzz import fuzz, process
 from concurrent.futures import ProcessPoolExecutor
+import base64
 
 
 # Read in the data with category labelled
@@ -86,5 +87,9 @@ elif option=="Check for multiple courses":
             pass
         
         elif download=="Yes":
-            matchedDf.to_csv("predictedCategory.csv", index=None)
-            st.write("File downloaded")
+            csv = matchedDf.to_csv(index=None).encode()
+
+            b64 = base64.b64encode(csv).decode()
+
+            href = f'<a href="data:file/csv;base64,{b64}" download="categoryPrediction.csv">Download csv file</a>'
+            st.markdown(href, unsafe_allow_html=True)
