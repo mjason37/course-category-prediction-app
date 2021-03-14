@@ -6,6 +6,10 @@ from concurrent.futures import ProcessPoolExecutor
 import base64
 
 
+# Set a title
+st.header("Course Category Prediction App")
+
+
 # Read in the data with category labelled
 df = pd.read_csv("courseWithCategory.csv")
 
@@ -71,7 +75,7 @@ elif option=="Check for multiple courses":
             st.write("File error!")
         
         # Out a text
-        st.subheader("Makeing prediction. Please wait:")
+        st.subheader("Making prediction. Please wait..")
         
         # Call the main function to predict from
         matchedDf = main(courseToPredict)
@@ -87,9 +91,18 @@ elif option=="Check for multiple courses":
             pass
         
         elif download=="Yes":
-            csv = matchedDf.to_csv(index=None).encode()
 
-            b64 = base64.b64encode(csv).decode()
+            # Create csv download link
+            def createDownloadLink(data):
+                csv = data.to_csv(index=None).encode()
 
-            href = f'<a href="data:file/csv;base64,{b64}" download="categoryPrediction.csv">Download csv file</a>'
-            st.markdown(href, unsafe_allow_html=True)
+                b64 = base64.b64encode(csv).decode()
+
+                href = f'<a href="data:file/csv;base64,{b64}" download="categoryPrediction.csv">Download csv file</a>'
+                return href
+
+            # Appl the function and return the link
+            st.markdown(createDownloadLink(matchedDf), unsafe_allow_html=True)
+
+# Print my name
+st.markdown("<h6 style='text-align: right; color: ash;'>Created by: Faysal</h6>", unsafe_allow_html=True)
