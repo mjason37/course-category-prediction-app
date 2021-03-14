@@ -86,5 +86,5 @@ elif option=="Check for multiple courses":
             pass
         
         elif download=="Yes":
-            matchedDf.to_excel("predictedCategory.xlsx", index=None)
+            matchedDf.to_csv("predictedCategory.csv", index=None)
             st.write("File downloaded")
