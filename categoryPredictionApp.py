@@ -61,7 +61,7 @@ if option=="Check for a single course":
 
 # If user uploads a file
 elif option=="Check for multiple courses":
-    st.subheader("Please upload a csv file")
+    st.subheader("Please upload a csv or xlsx file")
     uploaded_file = st.file_uploader("Upload a file", type=["csv", "xlsx"])
     
     # If any file is uploaded(csv or xlsx)
