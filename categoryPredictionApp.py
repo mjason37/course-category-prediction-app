@@ -20,7 +20,7 @@ def predictCategory(categoryToPredictFor):
     return = a dataframe with input course, predicted category and a confidence matching score."""
     
     # Returns best matching course, similarity score and index of the course
-    matchedCourse = process.extractOne(categoryToPredictFor, df.courseTitle.values)
+    matchedCourse = process.extractOne(categoryToPredictFor, df.courseTitle.values, scorer=fuzz.token_set_ratio)
     
     # Make query by index to extract the broad category
     matchedCategory = df.iloc[matchedCourse[2]].broadCategory1
@@ -61,7 +61,7 @@ if option=="Check for a single course":
 # If user uploads a file
 elif option=="Check for multiple courses":
     st.subheader("Please upload a csv file")
-    uploaded_file = st.file_uploader("Upload a file", type=["csv"])
+    uploaded_file = st.file_uploader("Upload a file", type=["csv", "xlsx"])
     
     # If any file is uploaded(csv or xlsx)
     if uploaded_file:
@@ -72,7 +72,7 @@ elif option=="Check for multiple courses":
             
         # Execute if xlsx file is uploaded
         except:
-            st.write("File error!")
+            courseToPredict = pd.read_excel(uploaded_file).iloc[:, 0].drop_duplicates().str.lower().str.strip()
         
         # Out a text
         st.subheader("Making prediction. Please wait..")
@@ -101,7 +101,7 @@ elif option=="Check for multiple courses":
                 href = f'<a href="data:file/csv;base64,{b64}" download="categoryPrediction.csv">Download csv file</a>'
                 return href
 
-            # Appl the function and return the link
+            # Apply the function and return the download link
             st.markdown(createDownloadLink(matchedDf), unsafe_allow_html=True)
 
 # Print my name
