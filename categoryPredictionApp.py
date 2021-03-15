@@ -4,6 +4,7 @@ import pandas as pd
 from rapidfuzz import fuzz, process
 from concurrent.futures import ProcessPoolExecutor
 import base64
+import xlrd
 
 
 # Set a title
